@@ -1,6 +1,6 @@
 # Script Rev Eng
 
-![screen.png](https://github.com/jgraille/reveng/blob/master/screen.png)
+![screen.png](https://github.com/jgraille/reveng/blob/master/data/screen.png)
 
 ### Issues
 - [2]can't generate a report from a python script (problem of exe path for the lib pandoc, see incident folder)
