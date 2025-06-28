@@ -1,56 +1,141 @@
-# Script Rev Eng
+# RevEng - Machine Learning Reverse Engineering Tool
 
-![screen.png](https://github.com/jgraille/reveng/blob/master/data/screen.png)
+A comprehensive machine learning toolkit that combines AutoML, genetic programming, clustering, and model explainability features for advanced data analysis and model development.
 
-### Issues
-- [2]can't generate a report from a python script (problem of exe path for the lib pandoc, see incident folder)
+<img src="data/screen.png" width="400">
 
-### Current features
-- automl h2o / (h2orandomforestestimator commented) / h2o metrics 
-- wrapper h2o for LIME / LIME metric 
-- genetic programming (DEAP), can still be more tuned.
-- calculating outliers / displaying outliers found in clusters.
-- selecting epsilon for dbscan regarding the distance neighbors plot.
-- dbscan (numerical variables + frequency values for categorical variables)
-- generic program. It takes as input a dataset (fill the config.json to specify informations about the file)
-- principales commandes shell: q, codb, gp, automl, cl
+## Features
 
-### In development
-- test package shap [https://github.com/SeanPLeary/shapley-values-h2o-example](https://github.com/SeanPLeary/shapley-values-h2o-example) / [https://github.com/slundberg/shap](https://github.com/slundberg/shap)
-- test hdbscan
-- add to the q command, a feature to kill processes.
-- add a case to switch between 'regression' / 'classification'
+- **AutoML Integration**: Automated machine learning using H2O framework with support for multiple algorithms (Random Forest, GLM, Deep Learning, GBM)
+- **Genetic Programming**: Feature selection and model generation using DEAP (Distributed Evolutionary Algorithms in Python)
+- **Clustering & Outlier Detection**: DBSCAN-based clustering with automatic outlier identification
+- **Model Explainability**: LIME (Local Interpretable Model-agnostic Explanations) integration for model interpretability
+- **Data Preprocessing**: Comprehensive preprocessing pipeline with encoding, scaling, and feature selection
+- **Interactive CLI**: Command-line interface for easy interaction with all features
+- **Configurable**: JSON-based configuration system for flexible dataset handling
 
-#### Warning
--Objets Model H2O, method partial_plot not implemented in version 3.28.2 (check if a depreciated version will make the method work)
-<br/>- big datasets (68mo file) don't work, a request for a more powerful computer is in the pipe. (Generic Loan Request 82211)
-Job with key $03017f00000132d4ffffffff$_973a3b962ad7f0ac902ab994fab4dbd failed with an exception: DistributedException from /127.0.0.1:54321: 'Java heap space', 
-caused by java.lang.OutOfMemoryError: [...] \r\n\tat jsr166y.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:104)\r\nCaused by: java.lang.OutOfMemoryError: Java heap space\r\n
-<br/>-When reenter the command gp-> will display warning. Overwritten methods because declared in a function not in global scope. [https://github.com/DEAP/deap/issues/108](https://github.com/DEAP/deap/issues/108)
+## Installation
 
-### Documentation
-#### Test on a new file
-Fill the `config.json` as below
+### Prerequisites
+
+- Python 3.7+
+- Java 8+ (required for H2O)
+
+### Dependencies
+
+Install the required packages:
+
+```bash
+pip install h2o pandas numpy scikit-learn deap lime matplotlib pyfiglet
+```
+
+### Setup
+
+1. Clone the repository:
+```bash
+git clone https://github.com/jgraille/reveng.git
+cd reveng
+```
+
+2. Configure your dataset in `config/config.json` (see [Configuration](#configuration) section)
+
+3. Run the application:
+```bash
+python -m reveng
+```
+
+## Usage
+
+### Interactive Mode
+
+Run the main application to access the interactive command-line interface:
+
+```bash
+python -m reveng
+```
+
+Available commands:
+- `cl` - Compute preclustering and outlier detection
+- `gp` - Run genetic programming
+- `automl` - Execute AutoML pipeline
+- `codb` - Connect to database
+- `q` - Quit the application
+
+### Configuration
+
+Edit `config/config.json` to configure your dataset:
+
 ```json
 {
-"yourfile": {
-		"path": "/data/yourfile.csv",
-		"target_output": "your_output",
-		"exclude": ["your_ouput", "field_exclude"],
-		"categorical_features" : [0,1,4],
-		"inputing_features_gp": [3,13,14]
-	}
+  "your_dataset": {
+    "path": "/data/your_file.csv",
+    "target_output": "target_column_name",
+    "exclude": ["target_column_name", "id_column"],
+    "categorical_features": [0, 1, 4, 5],
+    "inputing_features_gp": [3, 13, 14]
+  },
+  "automl_param": {
+    "max_models": 10,
+    "nfolds": 5,
+    "seed": 42,
+    "include_algos": ["DRF", "GLM", "DeepLearning", "GBM"]
+  }
 }
 ```
-Always include the target output in the `exclude` key: 
+
+**Configuration Parameters:**
+- `path`: Path to your CSV dataset
+- `target_output`: Name of the target/output column
+- `exclude`: List of columns to exclude from training (should include target column)
+- `categorical_features`: List of column indices that contain categorical data
+- `inputing_features_gp`: List of column indices to use for genetic programming
+- `automl_param`: H2O AutoML configuration parameters
+
+## Project Structure
+
 ```
-    "exclude": ["your_ouput", "field_exclude"],
+reveng/
+├── src/                    # Core modules
+│   ├── automl.py          # H2O AutoML implementation
+│   ├── explainautoml.py   # Model explainability with LIME
+│   ├── geneticlearn.py    # Genetic programming using DEAP
+│   ├── h2owrapper.py      # H2O wrapper utilities
+│   ├── preclustering.py   # DBSCAN clustering and outlier detection
+│   └── preprocessing.py   # Data preprocessing pipeline
+├── utils/                 # Utility functions
+├── config/               # Configuration files
+├── data/                 # Sample datasets
+├── __main__.py          # Main entry point
+└── __init__.py          # Package initialization
 ```
 
-Add indexes by always counting from `0`:
-```json
-  "categorical_features" : [0,1,4,5,6,8,9],
-  "inputing_features_gp": [3,13,14]
-```
+## Examples
+
+### Basic AutoML Workflow
+
+1. Configure your dataset in `config/config.json`
+2. Run the application: `python -m reveng`
+3. Execute AutoML: `automl`
+4. View model performance and explanations
+
+### Clustering Analysis
+
+1. Run clustering: `cl`
+2. View outlier detection results
+3. Analyze cluster distributions
+
+### Genetic Programming
+
+1. Run genetic programming: `gp`
+2. View evolved feature combinations
+3. Analyze fitness scores
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+For issues and questions, please open an issue on the GitHub repository.
 
 
