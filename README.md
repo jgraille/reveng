@@ -2,7 +2,7 @@
 
 A comprehensive machine learning toolkit that combines AutoML, genetic programming, clustering, and model explainability features for advanced data analysis and model development.
 
-<img src="data/screen.png" width="400">
+<img src="data/screen.png" width="600">
 
 ## Repository Structure
 
