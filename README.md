@@ -4,51 +4,31 @@ A comprehensive machine learning toolkit that combines AutoML, genetic programmi
 
 <img src="data/screen.png" width="400">
 
-## Features
+## Repository Structure
 
-- **AutoML Integration**: Automated machine learning using H2O framework with support for multiple algorithms (Random Forest, GLM, Deep Learning, GBM)
-- **Genetic Programming**: Feature selection and model generation using DEAP (Distributed Evolutionary Algorithms in Python)
-- **Clustering & Outlier Detection**: DBSCAN-based clustering with automatic outlier identification
-- **Model Explainability**: LIME (Local Interpretable Model-agnostic Explanations) integration for model interpretability
-- **Data Preprocessing**: Comprehensive preprocessing pipeline with encoding, scaling, and feature selection
-- **Interactive CLI**: Command-line interface for easy interaction with all features
-- **Configurable**: JSON-based configuration system for flexible dataset handling
-
-## Installation
-
-### Prerequisites
-
-- Python 3.7+
-- Java 8+ (required for H2O)
-
-### Dependencies
-
-Install the required packages:
-
-```bash
-pip install h2o pandas numpy scikit-learn deap lime matplotlib pyfiglet
 ```
-
-### Setup
-
-1. Clone the repository:
-```bash
-git clone https://github.com/jgraille/reveng.git
-cd reveng
-```
-
-2. Configure your dataset in `config/config.json` (see [Configuration](#configuration) section)
-
-3. Run the application:
-```bash
-python -m reveng
+reveng/
+├── src/                   # Core modules
+│   ├── automl.py          # H2O AutoML implementation
+│   ├── explainautoml.py   # Model explainability with LIME
+│   ├── geneticlearn.py    # Genetic programming using DEAP
+│   ├── h2owrapper.py      # H2O wrapper utilities
+│   ├── preclustering.py   # DBSCAN clustering and outlier detection
+│   └── preprocessing.py   # Data preprocessing pipeline
+├── utils/                 # Utility functions
+├── config/                # Configuration files
+├── data/                  # Sample datasets
+├── __main__.py            # Main entry point
+└── __init__.py            # Package initialization
 ```
 
 ## Usage
 
-### Interactive Mode
+### Prelim
 
-Run the main application to access the interactive command-line interface:
+Configure your dataset in `config/config.json` (see [Configuration](#configuration) section)
+
+### Running locally
 
 ```bash
 python -m reveng
@@ -60,6 +40,16 @@ Available commands:
 - `automl` - Execute AutoML pipeline
 - `codb` - Connect to database
 - `q` - Quit the application
+
+## Features
+
+- **AutoML Integration**: Automated machine learning using H2O framework with support for multiple algorithms (Random Forest, GLM, Deep Learning, GBM)
+- **Genetic Programming**: Feature selection and model generation using DEAP (Distributed Evolutionary Algorithms in Python)
+- **Clustering & Outlier Detection**: DBSCAN-based clustering with automatic outlier identification
+- **Model Explainability**: LIME (Local Interpretable Model-agnostic Explanations) integration for model interpretability
+- **Data Preprocessing**: Comprehensive preprocessing pipeline with encoding, scaling, and feature selection
+- **Interactive CLI**: Command-line interface for easy interaction with all features
+- **Configurable**: JSON-based configuration system for flexible dataset handling
 
 ### Configuration
 
@@ -91,23 +81,7 @@ Edit `config/config.json` to configure your dataset:
 - `inputing_features_gp`: List of column indices to use for genetic programming
 - `automl_param`: H2O AutoML configuration parameters
 
-## Project Structure
 
-```
-reveng/
-├── src/                    # Core modules
-│   ├── automl.py          # H2O AutoML implementation
-│   ├── explainautoml.py   # Model explainability with LIME
-│   ├── geneticlearn.py    # Genetic programming using DEAP
-│   ├── h2owrapper.py      # H2O wrapper utilities
-│   ├── preclustering.py   # DBSCAN clustering and outlier detection
-│   └── preprocessing.py   # Data preprocessing pipeline
-├── utils/                 # Utility functions
-├── config/               # Configuration files
-├── data/                 # Sample datasets
-├── __main__.py          # Main entry point
-└── __init__.py          # Package initialization
-```
 
 ## Examples
 
@@ -129,6 +103,21 @@ reveng/
 1. Run genetic programming: `gp`
 2. View evolved feature combinations
 3. Analyze fitness scores
+
+## Installation
+
+### Prerequisites
+
+- Python 3.7+
+- Java 8+ (required for H2O)
+
+### Dependencies
+
+Install the required packages:
+
+```bash
+pip install h2o pandas numpy scikit-learn deap lime matplotlib pyfiglet
+```
 
 ## License
 
